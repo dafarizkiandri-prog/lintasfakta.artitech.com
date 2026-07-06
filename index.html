@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animasi 3D Loader Estetik</title>
+    <style>
+        /* --- RESET & LAYOUT UTAMA --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center; /* Tengah horizontal */
+            align-items: center;     /* Tengah vertikal */
+            background-color: #212121; /* Background gelap agar loader menonjol */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- CONTAINER UTAMA LOADERS --- */
+        .loader-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* Jarak antara loader dan teks */
+        }
+
+        /* --- CONTAINER BOLA (Wadah Animasi) --- */
+        .loading-balls {
+            display: flex;
+            position: relative;
+            /* Memberikan efek perspektif agar terlihat agak 3D */
+            perspective: 1000px;
+        }
+
+        /* --- STYLE DASAR UNTUK SETIAP BOLA --- */
+        .ball {
+            width: 20px;
+            height: 20px;
+            margin: 0 5px; /* Jarak antar bola */
+            border-radius: 50%;
+            background-color: #00bcd4; /* Warna dasar cyan */
+            
+            /* Efek Bayangan Dalam agar terlihat seperti bola 3D */
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3), 
+                        0 0 10px rgba(0, 188, 212, 0.5);
+            
+            /* Mendaftarkan animasi utama */
+            animation: bounce3d 1.5s infinite ease-in-out;
+            
+            /* Memastikan transformasi terjadi dari tengah bola */
+            transform-origin: center bottom;
+        }
+
+        /* --- MEMBERIKAN DELAY ANIMASI AGAR BERGELOMBANG --- */
+        /* Bola ke-2 delay sedikit, bola ke-3 delay lebih banyak */
+        .ball:nth-child(2) {
+            animation-delay: 0.2s;
+            background-color: #ff4081; /* Warna pink */
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3), 
+                        0 0 10px rgba(255, 64, 129, 0.5);
+        }
+
+        .ball:nth-child(3) {
+            animation-delay: 0.4s;
+            background-color: #ffeb3b; /* Warna kuning */
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3), 
+                        0 0 10px rgba(255, 235, 59, 0.5);
+        }
+
+        /* --- TEKS LOADING --- */
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            /* Animasi teks memudar */
+            animation: pulseText 1.5s infinite ease-in-out;
+        }
+
+        /* --- KEYFRAMES ANIMASI UTAMA (Bounce 3D) --- */
+        @keyframes bounce3d {
+            0%, 100% {
+                /* Posisi bawah, bola normal */
+                transform: translateY(0) scaleY(1) scaleX(1);
+                animation-timing-function: ease-out; /* Percepat saat naik */
+            }
+            30% {
+                /* Posisi puncak, bola sedikit memanjang karena kecepatan */
+                transform: translateY(-50px) scaleY(1.1) scaleX(0.9) rotateX(10deg);
+                animation-timing-function: ease-in; /* Perlambat saat di puncak */
+            }
+            50% {
+                /* Posisi tengah saat turun, bola normal kembali */
+                transform: translateY(-20px) scaleY(1) scaleX(1);
+            }
+            80% {
+                /* Sesaat sebelum menyentuh tanah, sedikit gepeng */
+                transform: translateY(0) scaleY(0.8) scaleX(1.2);
+            }
+        }
+
+        /* --- KEYFRAMES ANIMASI TEKS --- */
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Efek Glow tambahan pada container saat bola memantul */
+        .loading-balls::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 5%;
+            width: 90%;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            filter: blur(5px);
+            z-index: -1;
+            animation: shadowPulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes shadowPulse {
+            0%, 100% { transform: scaleX(1); opacity: 0.3; }
+            30% { transform: scaleX(0.7); opacity: 0.1; } /* Bayangan mengecil saat bola di atas */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="loader-wrapper">
+        <!-- Area Bola-bola -->
+        <div class="loading-balls">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+        </div>
+        <!-- Teks Pendukung -->
+        <div class="loading-text">Memuat</div>
+    </div>
+
+</body>
+</html>
